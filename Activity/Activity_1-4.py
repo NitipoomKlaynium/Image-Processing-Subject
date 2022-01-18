@@ -1,9 +1,6 @@
 import cv2 as cv
 import numpy as np
-from matplotlib import pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
-import random
 
 img = cv.imread('Swing.png', cv.IMREAD_GRAYSCALE)
 
