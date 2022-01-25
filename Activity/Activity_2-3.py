@@ -16,6 +16,7 @@ for h in range(300, 600) :
         img_mask[h][w] = (255, 255, 255)
 
 img_obj_area = cv.bitwise_and(img, img_mask)
+# img_obj_area = img & img_mask
 
 plt.subplot(1, 3, 1)
 plt.title('Original'), plt.imshow(img)
