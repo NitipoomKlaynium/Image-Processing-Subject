@@ -21,40 +21,34 @@ def zoom(image_src, multiplier: float) :
 if __name__ == "__main__" :
     
     # Resize image
-    img_swing = cv.imread('Swing.png')
-    img_swing = crop(img_swing, (600, 600), (0, 50))
+    img = cv.imread('Swing.png')
+    img = crop(img, (600, 600), (0, 50))
 
-    img_nature = cv.imread('Nature.jpg')
-    img_nature = zoom(img_nature, 2)
-    img_nature = crop(img_nature, (600, 600), (0, 100))
-    
     # Generate weight array
-    weight_array = [(1 - float(i)/30, float(i)/30) for i in range(31)]
-    # x = (list)(a + b for a, b in weight_array)
-    # print(x)
+    γ_array = [0.1]
+    step = 0.025
+    while(γ_array[-1] < 3.0) :
+        γ_array += [γ_array[-1] + step]
+        if (3.0 - γ_array[-1] < step) :
+            γ_array += [3.0]
+    a, b = 1.0, 0
+    
+    print(γ_array)
     
     # Create vdโอ writer
     vdโอ_fourcc = cv.VideoWriter_fourcc(*'mp4v')
-    vdโอ = cv.VideoWriter("Swing_Nature.mp4", vdโอ_fourcc, 10.0, (600,600))
+    vdโอ = cv.VideoWriter("Swing_gamma.mp4", vdโอ_fourcc, 30.0, (600,600))
     
     # Frame writing
-    for i in range(20) :
-        vdโอ.write(img_swing)
     
-    for i in range(len(weight_array)) :
-        frame = np.uint8(img_swing * weight_array[i][0] + img_nature * weight_array[i][1])
-        vdโอ.write(frame)
-        
-    for i in range(20) :
-        vdโอ.write(img_nature)
-        
-    for i in range(len(weight_array)) :
-        frame = np.uint8(img_nature * weight_array[i][0] + img_swing * weight_array[i][1])
+    for γ in γ_array :
+        frame = np.uint8((a * ((img/255)**γ) + b) * 255)
         vdโอ.write(frame)
     
-    for i in range(20) :
-        vdโอ.write(img_swing)
-    
+    for γ in γ_array[::-1] :
+        frame = np.uint8((a * ((img/255)**γ) + b) * 255)
+        vdโอ.write(frame)
+        
     # vdโอ Release
     vdโอ.release()
  
