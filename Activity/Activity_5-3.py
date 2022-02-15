@@ -53,18 +53,19 @@ autoencoder = Model(Input_img, decoded)
 autoencoder.compile(optimizer='adam', loss='mse') 
 autoencoder.summary()
 
-epoch = 3 # [2, 3, 4]
+epoch = 2 # [2, 3, 4]
 batch_size = 8 # [8, 16, 32 ]
 callback = EarlyStopping(monitor='val_loss', mode='min')
 
 history = autoencoder.fit(x_train_noisy, train_x, epochs=epoch, batch_size=batch_size, shuffle=True, validation_data=(x_val_noisy, val_x), callbacks=callback)
 
-predictions = autoencoder.predict(x_val_noisy)
-predictions = autoencoder.predict(x_test_noisy)
+# predictions = autoencoder.predict(x_val_noisy)
+predictions = autoencoder.predict(x_train_noisy)
 
 
 amount = 5;
 
+plt.subplot(4, 3, 2)
 plt.plot(history.history['loss'])
 plt.plot(history.history['val_loss'])
 plt.title('model loss')
@@ -72,14 +73,16 @@ plt.ylabel('loss')
 plt.xlabel('epoch')
 plt.legend(['train', 'test'], loc='upper left')
 
-plt.show()
 
 for i in range(amount) :
-    plt.subplot(3, amount, i + 1)
+    plt.subplot(4, amount, i + 1 + amount)
+    plt.axis('off')
     plt.imshow(x_train_noisy[i])
-    plt.subplot(3, amount, i + 1 + amount)
+    plt.subplot(4, amount, i + 1 + amount * 2)
+    plt.axis('off')
     plt.imshow(train_x[i])
-    plt.subplot(3, amount, i + 1 + amount * 2)
+    plt.subplot(4, amount, i + 1 + amount * 3)
+    plt.axis('off')
     plt.imshow(predictions[i])
 
 plt.show()
