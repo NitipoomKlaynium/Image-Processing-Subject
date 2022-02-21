@@ -15,7 +15,7 @@ model = VGG16()
 kernels, biases = model.layers[1].get_weights()
 # print(model.layers[1].get_config())
 
-img = cv.cvtColor(cv.imread('atk-1.png'), cv.COLOR_BGR2RGB);
+img = cv.cvtColor(cv.imread('Swing_224x224.png'), cv.COLOR_BGR2RGB);
 
 img = img_to_array(img)
 # img = np.array(img, np.float32)
