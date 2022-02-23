@@ -13,9 +13,10 @@ face_mini = "face_mini/**/*.jpg"
 filenames = glob.glob(face_mini)
 
 all_images = []
+H, W = 150, 150
 
 for fname in filenames[:500] :
-    img = image.load_img(fname, target_size=(100, 100), interpolation="nearest")
+    img = image.load_img(fname, target_size=(H, W), interpolation="nearest")
     img = image.img_to_array(img)
     img /= 255
     all_images.append(img)
@@ -34,7 +35,7 @@ x_test_noisy = test_x + ( noise_factor * np.random.normal(loc=Nmean, scale=Nstd,
 
 
 # Encoded
-Input_img = Input(shape=(100, 100, 3))
+Input_img = Input(shape=(H, W, 3))
 
 x1 = Conv2D(256, (3, 3), activation='relu', padding='same')(Input_img)
 x2 = Conv2D(128, (3, 3), activation='relu', padding='same')(x1)
@@ -61,7 +62,6 @@ history = autoencoder.fit(x_train_noisy, train_x, epochs=epoch, batch_size=batch
 
 # predictions = autoencoder.predict(x_val_noisy)
 predictions = autoencoder.predict(x_train_noisy)
-
 
 amount = 5;
 

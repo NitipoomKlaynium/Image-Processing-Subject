@@ -3,12 +3,7 @@ import numpy as np
 from matplotlib import image, pyplot as plt
 
 def crop(image_src: np.ndarray, size: set, origin = (0, 0)) :
-    result_h = size[0]
-    result_w = size[1]
-    img_result = np.asarray(result_h * [result_w * [[0, 0, 0]]], np.uint8)
-    for h in range(0, result_h) :
-        for w in range(0, result_w) :
-            img_result[h][w] = image_src[origin[0] + h][origin[1] + w]
+    img_result = image_src[origin[0]:(origin[0] + size[0]), origin[1]:(origin[1] + size[1])]
     return img_result
 
 def zoom(image_src, multiplier: float) :
